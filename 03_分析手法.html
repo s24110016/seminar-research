@@ -23,61 +23,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -163,7 +109,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating slimcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -244,17 +190,19 @@ window.Quarto = {
    
   <ul class="collapse">
   <li><a href="#手法の選定" id="toc-手法の選定" class="nav-link active" data-scroll-target="#手法の選定"><span class="header-section-number">3.1</span> 手法の選定</a></li>
-  <li><a href="#線形回帰ベースライン" id="toc-線形回帰ベースライン" class="nav-link" data-scroll-target="#線形回帰ベースライン"><span class="header-section-number">3.2</span> 線形回帰（ベースライン）</a></li>
-  <li><a href="#回帰木rpart" id="toc-回帰木rpart" class="nav-link" data-scroll-target="#回帰木rpart"><span class="header-section-number">3.3</span> 回帰木（rpart）</a></li>
-  <li><a href="#説明変数の設計" id="toc-説明変数の設計" class="nav-link" data-scroll-target="#説明変数の設計"><span class="header-section-number">3.4</span> 説明変数の設計</a></li>
-  <li><a href="#分析パイプライン" id="toc-分析パイプライン" class="nav-link" data-scroll-target="#分析パイプライン"><span class="header-section-number">3.5</span> 分析パイプライン</a></li>
-  <li><a href="#精度評価指標" id="toc-精度評価指標" class="nav-link" data-scroll-target="#精度評価指標"><span class="header-section-number">3.6</span> 精度評価指標</a></li>
-  <li><a href="#追加パッケージの利用発展" id="toc-追加パッケージの利用発展" class="nav-link" data-scroll-target="#追加パッケージの利用発展"><span class="header-section-number">3.7</span> 追加パッケージの利用（発展）</a></li>
+  <li><a href="#相関分析" id="toc-相関分析" class="nav-link" data-scroll-target="#相関分析"><span class="header-section-number">3.2</span> 相関分析</a></li>
+  <li><a href="#試合単位の相関点二列相関係数" id="toc-試合単位の相関点二列相関係数" class="nav-link" data-scroll-target="#試合単位の相関点二列相関係数"><span class="header-section-number">3.3</span> 試合単位の相関（点二列相関係数）</a></li>
+  <li><a href="#ロジスティック回帰" id="toc-ロジスティック回帰" class="nav-link" data-scroll-target="#ロジスティック回帰"><span class="header-section-number">3.4</span> ロジスティック回帰</a></li>
+  <li><a href="#勝利確率の推定" id="toc-勝利確率の推定" class="nav-link" data-scroll-target="#勝利確率の推定"><span class="header-section-number">3.5</span> 勝利確率の推定</a></li>
+  <li><a href="#説明変数の設計" id="toc-説明変数の設計" class="nav-link" data-scroll-target="#説明変数の設計"><span class="header-section-number">3.6</span> 説明変数の設計</a></li>
+  <li><a href="#分析パイプライン" id="toc-分析パイプライン" class="nav-link" data-scroll-target="#分析パイプライン"><span class="header-section-number">3.7</span> 分析パイプライン</a></li>
+  <li><a href="#精度評価指標" id="toc-精度評価指標" class="nav-link" data-scroll-target="#精度評価指標"><span class="header-section-number">3.8</span> 精度評価指標</a></li>
+  <li><a href="#疑似決定係数mcfaddens-r2" id="toc-疑似決定係数mcfaddens-r2" class="nav-link" data-scroll-target="#疑似決定係数mcfaddens-r2"><span class="header-section-number">3.9</span> 疑似決定係数（McFadden’s <span class="math inline">\(R^2\)</span>）</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -301,10 +249,10 @@ window.Quarto = {
 </ul>
 </div>
 </div>
-<section id="手法の選定" class="level2 page-columns page-full" data-number="3.1">
+<section id="手法の選定" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="手法の選定"><span class="header-section-number">3.1</span> 手法の選定</h2>
-<p>本研究では、以下の2手法を比較する。ベースラインとして線形回帰を用い、非線形な関係を捉える手法として回帰木（rpart）<span class="citation" data-cites="James2023">(<a href="#ref-James2023" role="doc-biblioref">James ほか 2023年</a>)</span> を採用する。</p>
-<div class="no-row-height column-margin column-container"></div><div id="tbl-method-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>本研究では、ボール支配率と勝敗・勝ち点の関係を明らかにするため、以下の2手法を用いる。まず相関分析により変数間の線形関係の強さを定量化し、次にロジスティック回帰により支配率が勝利確率に与える影響を推定する。</p>
+<div id="tbl-method-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-method-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 表&nbsp;3.1: 手法の比較
@@ -327,16 +275,16 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>線形回帰</td>
-<td>線形モデル</td>
-<td>解釈が容易、計算が高速</td>
+<td>相関分析</td>
+<td>2変数間の線形関係の強さを−1 から 1 の係数で表す</td>
+<td>解釈が直感的、集計レベルの比較が容易</td>
 <td>非線形関係を捉えにくい</td>
 </tr>
 <tr class="even">
-<td>回帰木（rpart）</td>
-<td>決定木ベースの再帰分割</td>
-<td>非線形対応、解釈が視覚的</td>
-<td>過学習リスク、不安定性</td>
+<td>ロジスティック回帰</td>
+<td>二値の目的変数に対してロジット変換を用いた回帰モデル</td>
+<td>二値の目的変数に適合、オッズ比で解釈可能</td>
+<td>線形性の仮定に依存</td>
 </tr>
 </tbody>
 </table>
@@ -344,64 +292,47 @@ window.Quarto = {
 </figure>
 </div>
 </section>
-<section id="線形回帰ベースライン" class="level2 page-columns page-full" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="線形回帰ベースライン"><span class="header-section-number">3.2</span> 線形回帰（ベースライン）</h2>
-<p>線形回帰モデルは、目的変数 <span class="math inline">\(y\)</span> を説明変数 <span class="math inline">\(\mathbf{x} = (x_1, x_2, \ldots, x_p)\)</span> の線形結合で表現する。</p>
-<p><span id="eq-linear"><span class="math display">\[
-y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \varepsilon
-\tag{3.1}\]</span></span></p>
-<p>ここで <span class="math inline">\(\beta_0\)</span> は切片、<span class="math inline">\(\beta_1, \ldots, \beta_p\)</span> は回帰係数、<span class="math inline">\(\varepsilon\)</span> は誤差項である <span class="citation" data-cites="James2023">(<a href="#ref-James2023" role="doc-biblioref">James ほか 2023年</a>)</span>。</p>
-<div class="no-row-height column-margin column-container"></div></section>
-<section id="回帰木rpart" class="level2 page-columns page-full" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="回帰木rpart"><span class="header-section-number">3.3</span> 回帰木（rpart）</h2>
-<p>回帰木は、説明変数の空間を再帰的に分割し、各領域ごとに目的変数の平均値を予測するノンパラメトリック手法である <span class="citation" data-cites="James2023">(<a href="#ref-James2023" role="doc-biblioref">James ほか 2023年</a>)</span>。R の <code>rpart</code> パッケージはR に標準搭載されており、追加インストール不要で利用できる。</p>
-<div class="no-row-height column-margin column-container"><div id="ref-James2023" class="csl-entry" role="listitem">
-James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, と Jonathan Taylor. 2023年. <em>An Introduction to Statistical Learning: with Applications in <span>R</span></em>. 2nd 版. Springer. <a href="https://doi.org/10.1007/978-3-031-38747-0">https://doi.org/10.1007/978-3-031-38747-0</a>.
-</div></div><section id="分割の基準" class="level3">
-<h3 class="anchored" data-anchor-id="分割の基準">分割の基準</h3>
-<p>各ノードにおいて、残差二乗和（RSS）を最小化する分割点を探索する。</p>
-<p><span id="eq-rss-split"><span class="math display">\[
-\text{RSS} = \sum_{x_i \in R_1} (y_i - \hat{y}_{R_1})^2 + \sum_{x_i \in R_2} (y_i - \hat{y}_{R_2})^2
-\tag{3.2}\]</span></span></p>
-<p>ここで <span class="math inline">\(R_1, R_2\)</span> は分割後の2つの領域、<span class="math inline">\(\hat{y}_{R_k}\)</span> は各領域内の目的変数の平均値である。</p>
+<section id="相関分析" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="相関分析"><span class="header-section-number">3.2</span> 相関分析</h2>
+<section id="チーム単位の相関pearson-の積率相関係数" class="level3">
+<h3 class="anchored" data-anchor-id="チーム単位の相関pearson-の積率相関係数">チーム単位の相関（Pearson の積率相関係数）</h3>
+<p>チームごとのシーズン平均支配率と勝率・勝ち点の関係を Pearson の積率相関係数<span class="math inline">\(r\)</span>で評価する。</p>
+<p><span id="eq-pearson"><span class="math display">\[
+r = \frac{
+  \sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})
+}{
+  \sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2}
+  \cdot
+  \sqrt{\sum_{i=1}^{n}(y_i - \bar{y})^2}
+}
+\tag{3.1}\]</span></span> ここで <span class="math inline">\(x_i\)</span> はチーム <span class="math inline">\(i\)</span> の平均支配率、<span class="math inline">\(y_i\)</span> は勝率または勝ち点、<span class="math inline">\(n=20\)</span>（チーム数）である。<span class="math inline">\(r\)</span> は <span class="math inline">\(-1\)</span> から <span class="math inline">\(1\)</span> の値をとり、絶対値が大きいほど線形関係が強い。。</p>
 </section>
-<section id="決定木の構造" class="level3">
-<h3 class="anchored" data-anchor-id="決定木の構造">決定木の構造</h3>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-decision-tree" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-decision-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div>
-<pre class="mermaid mermaid-js" data-label="fig-decision-tree">flowchart TD
-    A["気温 ≥ 20°C ?"] --&gt;|Yes| B["時間帯 ∈ 通勤時間 ?"]
-    A --&gt;|No| C["降雨あり ?"]
-    B --&gt;|Yes| D["予測: 150台"]
-    B --&gt;|No| E["予測: 90台"]
-    C --&gt;|Yes| F["予測: 25台"]
-    C --&gt;|No| G["予測: 55台"]
-</pre>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decision-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;3.1: 決定木による分岐のイメージ
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
 </section>
-<section id="剪定pruning" class="level3">
-<h3 class="anchored" data-anchor-id="剪定pruning">剪定（Pruning）</h3>
-<p>回帰木は深くなるほど訓練データに過学習する。これを防ぐため、コスト複雑度剪定（cost-complexity pruning）を行う。</p>
-<p><span id="eq-cost-complexity"><span class="math display">\[
-\text{Cost} = \text{RSS} + \alpha \cdot |T|
+<section id="試合単位の相関点二列相関係数" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="試合単位の相関点二列相関係数"><span class="header-section-number">3.3</span> 試合単位の相関（点二列相関係数）</h2>
+<p>試合単位（760試合）では目的変数が勝利フラグ（0/1）の二値変数となるため、点二列相関係数 <span class="math inline">\(r_{pb}\)</span> を用いる <span id="eq-point-biserial"><span class="math display">\[
+r_{pb} = \frac{\bar{x}_1 - \bar{x}_0}{s_x}
+         \sqrt{\frac{n_1 \cdot n_0}{n^2}}
+\tag{3.2}\]</span></span> ここで <span class="math inline">\(\bar{x}_1\)</span>・<span class="math inline">\(\bar{x}_0\)</span> はそれぞれ勝利試合・非勝利試合の平均支配率、<span class="math inline">\(s_x\)</span> は支配率の標準偏差、<span class="math inline">\(n_1\)</span>・<span class="math inline">\(n_0\)</span> は各グループのサンプル数、<span class="math inline">\(n\)</span> は総試合数である。</p>
+</section>
+<section id="ロジスティック回帰" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="ロジスティック回帰"><span class="header-section-number">3.4</span> ロジスティック回帰</h2>
+<p>ロジスティック回帰は、二値の目的変数（勝利<span class="math inline">\(y=1\)</span>/非勝利<span class="math inline">\(y=0\)</span>）に対して、説明変数<span class="math inline">\(x\)</span>（ボール支配率）が勝利確率<span class="math inline">\(p\)</span>に与える影響を推定するモデルである。R では追加パッケージ不要で glm() 関数を用いて推定できる。</p>
+<p><span id="eq-logistic"><span class="math display">\[
+\log\frac{p}{1-p} = \beta_0 + \beta_1 x
 \tag{3.3}\]</span></span></p>
-<p>ここで <span class="math inline">\(|T|\)</span> は木の終端ノード数、<span class="math inline">\(\alpha\)</span> は複雑度パラメータ（<code>cp</code>）である。<span class="math inline">\(\alpha\)</span> が大きいほど単純な木が選ばれる。</p>
+<p>ここで左辺はロジット（対数オッズ）、<span class="math inline">\(\beta_1\)</span>は支配率が1ポイント上昇したときの対数オッズの変化量である。<span class="math inline">\(\beta_1 &gt; 0\)</span>であれば支配率が高いほど勝利確率が上がることを意味する。</p>
 </section>
+<section id="勝利確率の推定" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="勝利確率の推定"><span class="header-section-number">3.5</span> 勝利確率の推定</h2>
+<p><a href="#eq-logistic" class="quarto-xref">式&nbsp;<span>3.3</span></a> を勝利確率<span class="math inline">\(p\)</span>について解くと、以下のシグモイド関数の形になる。</p>
+<p><span id="eq-sigmoid"><span class="math display">\[
+p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}
+\tag{3.4}\]</span></span></p>
+<p>推定された <span class="math inline">\(\hat{\beta}_0\)</span>・<span class="math inline">\(\hat{\beta}_1\)</span> を代入することで、任意の支配率<span class="math inline">\(x\)</span>に対する勝利確率を求めることができる。</p>
 </section>
-<section id="説明変数の設計" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="説明変数の設計"><span class="header-section-number">3.4</span> 説明変数の設計</h2>
+<section id="説明変数の設計" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="説明変数の設計"><span class="header-section-number">3.6</span> 説明変数の設計</h2>
 <div id="tbl-features" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-features-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -414,51 +345,93 @@ James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, と Jonathan Ta
 <th>変数名</th>
 <th>型</th>
 <th>説明</th>
-<th>変換</th>
+<th>単位</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>hour</code></td>
-<td>integer</td>
-<td>時間帯</td>
-<td>そのまま使用</td>
+<td><code>date</code></td>
+<td>Date</td>
+<td>試合日</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td><code>temperature</code></td>
-<td>numeric</td>
-<td>気温</td>
-<td>そのまま使用</td>
+<td><code>Round</code></td>
+<td>character</td>
+<td>節（Matchweek ）</td>
+<td>-</td>
 </tr>
 <tr class="odd">
-<td><code>humidity</code></td>
-<td>numeric</td>
-<td>湿度</td>
-<td>そのまま使用</td>
+<td><code>Venue</code></td>
+<td>character</td>
+<td>開催地（Home / Away）</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td><code>wind_speed</code></td>
-<td>numeric</td>
-<td>風速</td>
-<td>そのまま使用</td>
+<td><code>Opponent</code></td>
+<td>character</td>
+<td>対戦相手</td>
+<td>-</td>
 </tr>
 <tr class="odd">
-<td><code>is_rain</code></td>
-<td>integer</td>
-<td>降雨フラグ</td>
-<td>factor 変換</td>
+<td><code>Result</code></td>
+<td>character</td>
+<td>試合結果（W / D / L）</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td><code>is_weekend</code></td>
-<td>logical</td>
-<td>休日フラグ</td>
-<td>factor 変換</td>
+<td><code>win</code></td>
+<td>integer</td>
+<td>勝利フラグ（0/1）</td>
+<td>-</td>
 </tr>
 <tr class="odd">
-<td><code>month</code></td>
+<td><code>Points</code></td>
 <td>integer</td>
-<td>月</td>
-<td>factor 変換</td>
+<td>勝ち点（W=3, D=1,L=0）</td>
+<td>点</td>
+</tr>
+<tr class="even">
+<td><code>GF</code></td>
+<td>integer</td>
+<td>得点</td>
+<td>点</td>
+</tr>
+<tr class="odd">
+<td><code>GA</code></td>
+<td>integer</td>
+<td>失点</td>
+<td>点</td>
+</tr>
+<tr class="even">
+<td><code>Sh</code></td>
+<td>integer</td>
+<td>シュート数</td>
+<td>本</td>
+</tr>
+<tr class="odd">
+<td><code>SoT</code></td>
+<td>integer</td>
+<td>枠内シュート数</td>
+<td>本</td>
+</tr>
+<tr class="even">
+<td><code>SoT%</code></td>
+<td>numeric</td>
+<td>シュート成功率</td>
+<td>%</td>
+</tr>
+<tr class="odd">
+<td><code>Poss</code></td>
+<td>numeric</td>
+<td>ボール支配率</td>
+<td>%</td>
+</tr>
+<tr class="even">
+<td><code>Attendance</code></td>
+<td>numeric</td>
+<td>観客動員数</td>
+<td>人</td>
 </tr>
 </tbody>
 </table>
@@ -466,8 +439,8 @@ James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, と Jonathan Ta
 </figure>
 </div>
 </section>
-<section id="分析パイプライン" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="分析パイプライン"><span class="header-section-number">3.5</span> 分析パイプライン</h2>
+<section id="分析パイプライン" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="分析パイプライン"><span class="header-section-number">3.7</span> 分析パイプライン</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -475,52 +448,83 @@ James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, と Jonathan Ta
 <div aria-describedby="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 <pre class="mermaid mermaid-js" data-label="fig-pipeline">flowchart LR
-    A[データ読込] --&gt; B[前処理&lt;br&gt;factor変換]
-    B --&gt; C[訓練/テスト分割&lt;br&gt;80:20]
-    C --&gt; D[モデル学習]
-    D --&gt; E1[線形回帰&lt;br&gt;lm]
-    D --&gt; E2[回帰木&lt;br&gt;rpart]
-    E1 --&gt; F[精度評価&lt;br&gt;MAE/RMSE/R²]
-    E2 --&gt; F
-    F --&gt; G[変数重要度&lt;br&gt;分析]
+    A[analysis_data&lt;br&gt;760試合×23列] --&gt; B[チーム単位集計&lt;br&gt;平均支配率・勝率]
+    A --&gt; C[試合単位&lt;br&gt;そのまま使用]
+    B --&gt; D[Pearson相関&lt;br&gt;支配率 vs 勝率・勝ち点]
+    C --&gt; E[点二列相関&lt;br&gt;支配率 vs 勝利フラグ]
+    C --&gt; F[ロジスティック回帰&lt;br&gt;支配率 → 勝利確率]
+    D --&gt; G[結果の解釈・考察]
+    E --&gt; G
+    F --&gt; G
 </pre>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;3.2: 分析パイプライン
+図&nbsp;3.1: 分析パイプライン
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="精度評価指標" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="精度評価指標"><span class="header-section-number">3.6</span> 精度評価指標</h2>
-<p>モデルの予測精度を評価するため、以下の3指標を使用する。</p>
-<section id="平均絶対誤差mae" class="level3">
-<h3 class="anchored" data-anchor-id="平均絶対誤差mae">平均絶対誤差（MAE）</h3>
-<p><span id="eq-mae"><span class="math display">\[
-\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
-\tag{3.4}\]</span></span></p>
+<section id="精度評価指標" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="精度評価指標"><span class="header-section-number">3.8</span> 精度評価指標</h2>
+<p>モデルの予測精度を評価するため、以下の指標を使用する。</p>
+<section id="相関係数の解釈基準" class="level3">
+<h3 class="anchored" data-anchor-id="相関係数の解釈基準">相関係数の解釈基準</h3>
+<p><span class="math inline">\(r\)</span>（および <span class="math inline">\(r_{pb}\)</span>）の絶対値は、一般に <a href="#tbl-r-criteria" class="quarto-xref">表&nbsp;<span>3.3</span></a> の基準で関係の強さを評価する。</p>
+<div id="tbl-r-criteria" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-criteria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;3.3: 相関係数の解釈基準
+</figcaption>
+<div aria-describedby="tbl-r-criteria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(|r|\)</span> の範囲</th>
+<th style="text-align: center;">関係の強さ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.00 〜 0.10</td>
+<td style="text-align: center;">ほぼなし</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.10 〜 0.30</td>
+<td style="text-align: center;">弱い</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.30 〜 0.50</td>
+<td style="text-align: center;">中程度</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.50 以上</td>
+<td style="text-align: center;">強い</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
 </section>
-<section id="二乗平均平方根誤差rmse" class="level3">
-<h3 class="anchored" data-anchor-id="二乗平均平方根誤差rmse">二乗平均平方根誤差（RMSE）</h3>
-<p><span id="eq-rmse"><span class="math display">\[
-\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
-\tag{3.5}\]</span></span></p>
+<section id="統計的有意性p値" class="level3">
+<h3 class="anchored" data-anchor-id="統計的有意性p値">統計的有意性（p値）</h3>
+<p>相関係数・回帰係数のいずれについても、有意水準 <span class="math inline">\(\alpha = 0.05\)</span> を採用する。<span class="math inline">\(p &lt; 0.05\)</span> のとき帰無仮説「関係がない」を棄却し、統計的に有意とみなす。</p>
 </section>
-<section id="決定係数r²" class="level3">
-<h3 class="anchored" data-anchor-id="決定係数r²">決定係数（R²）</h3>
-<p><span id="eq-r2"><span class="math display">\[
-R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2}
-\tag{3.6}\]</span></span></p>
-<p>ここで <span class="math inline">\(y_i\)</span> は実測値、<span class="math inline">\(\hat{y}_i\)</span> は予測値、<span class="math inline">\(\bar{y}\)</span> は実測値の平均、<span class="math inline">\(n\)</span> はサンプル数である。</p>
-<p><a href="#eq-mae" class="quarto-xref">式&nbsp;<span>3.4</span></a> は外れ値に頑健な指標、<a href="#eq-rmse" class="quarto-xref">式&nbsp;<span>3.5</span></a> は大きな誤差をより重く評価する指標、<a href="#eq-r2" class="quarto-xref">式&nbsp;<span>3.6</span></a> はモデルの説明力を0〜1で表す指標である。</p>
+<section id="オッズ比ロジスティック回帰" class="level3">
+<h3 class="anchored" data-anchor-id="オッズ比ロジスティック回帰">オッズ比（ロジスティック回帰）</h3>
+<p>ロジスティック回帰の係数<span class="math inline">\(\hat{\beta}_1\)</span> は対数オッズの変化量であるため、指数変換してオッズ比（OR）として解釈する。 <span id="eq-or"><span class="math display">\[
+\text{OR} = e^{\hat{\beta}_1}
+\tag{3.5}\]</span></span> OR &gt; 1 であれば支配率が高いほど勝利のオッズが上がることを、OR &lt; 1 であれば下がることを意味する。</p>
 </section>
 </section>
-<section id="追加パッケージの利用発展" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="追加パッケージの利用発展"><span class="header-section-number">3.7</span> 追加パッケージの利用（発展）</h2>
-<p>本テンプレートはR の基本パッケージのみで動作するが、研究の目的に応じてより高度なパッケージを導入できる。</p>
+<section id="疑似決定係数mcfaddens-r2" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="疑似決定係数mcfaddens-r2"><span class="header-section-number">3.9</span> 疑似決定係数（McFadden’s <span class="math inline">\(R^2\)</span>）</h2>
+<p>ロジスティック回帰にはOLSの決定係数<span class="math inline">\(R^2\)</span>が直接適用できないため、モデル全体の当てはまりの指標としてMcFaddenの疑似決定係数を用いる。 <span id="eq-mcfadden"><span class="math display">\[
+R^2_{\text{McF}} = 1 - \frac{\log L(\hat{M})}{\log L(M_0)}
+\tag{3.6}\]</span></span> ここで <span class="math inline">\(\log L(\hat{M})\)</span> は推定モデルの対数尤度、<span class="math inline">\(\log L(M_0)\)</span> は切片のみのヌルモデルの対数尤度である。値が1に近いほどモデルの説明力が高いことを示す。</p>
 <div class="callout callout-style-default callout-important callout-titled" title="パッケージの追加手順">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -576,24 +580,6 @@ R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})
 </tr>
 </tbody>
 </table>
-</section>
-<section id="使用例lightgbm-で回帰木を置き換える場合" class="level3">
-<h3 class="anchored" data-anchor-id="使用例lightgbm-で回帰木を置き換える場合">使用例：LightGBM で回帰木を置き換える場合</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. インストール（R コンソールで一度だけ実行）</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lightgbm"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. .qmd ファイル内で読み込んで使用</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lightgbm)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>dtrain <span class="ot">&lt;-</span> <span class="fu">lgb.Dataset</span>(</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data  =</span> <span class="fu">as.matrix</span>(train_data[, <span class="sc">-</span><span class="fu">which</span>(<span class="fu">names</span>(train_data) <span class="sc">==</span> <span class="st">"count"</span>)]),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> train_data<span class="sc">$</span>count</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">objective =</span> <span class="st">"regression"</span>, <span class="at">metric =</span> <span class="st">"rmse"</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">num_leaves =</span> <span class="dv">31</span>, <span class="at">learning_rate =</span> <span class="fl">0.1</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>lgbm_fit <span class="ot">&lt;-</span> <span class="fu">lgb.train</span>(params, dtrain, <span class="at">nrounds =</span> <span class="dv">500</span>)</span></code></pre></div><button title="コピー" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-warning callout-titled" title="注意">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -611,7 +597,6 @@ R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})
 </ul>
 </div>
 </div>
-
 
 
 </section>

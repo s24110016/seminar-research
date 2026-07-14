@@ -23,26 +23,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -94,15 +75,62 @@ div.csl-indent {
     "search-label": "サーチ"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating slimcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -182,18 +210,18 @@ div.csl-indent {
     <h2 id="toc-title">目次</h2>
    
   <ul class="collapse">
-  <li><a href="#モデル学習" id="toc-モデル学習" class="nav-link active" data-scroll-target="#モデル学習"><span class="header-section-number">4.1</span> モデル学習</a></li>
-  <li><a href="#精度比較" id="toc-精度比較" class="nav-link" data-scroll-target="#精度比較"><span class="header-section-number">4.2</span> 精度比較</a></li>
-  <li><a href="#予測結果の可視化" id="toc-予測結果の可視化" class="nav-link" data-scroll-target="#予測結果の可視化"><span class="header-section-number">4.3</span> 予測結果の可視化</a></li>
-  <li><a href="#誤差分析" id="toc-誤差分析" class="nav-link" data-scroll-target="#誤差分析"><span class="header-section-number">4.4</span> 誤差分析</a></li>
-  <li><a href="#変数重要度" id="toc-変数重要度" class="nav-link" data-scroll-target="#変数重要度"><span class="header-section-number">4.5</span> 変数重要度</a></li>
-  <li><a href="#曜日別精度" id="toc-曜日別精度" class="nav-link" data-scroll-target="#曜日別精度"><span class="header-section-number">4.6</span> 曜日別精度</a></li>
+  <li><a href="#分析の実行" id="toc-分析の実行" class="nav-link active" data-scroll-target="#分析の実行"><span class="header-section-number">4.1</span> 分析の実行</a></li>
+  <li><a href="#相関分析の結果" id="toc-相関分析の結果" class="nav-link" data-scroll-target="#相関分析の結果"><span class="header-section-number">4.2</span> 相関分析の結果</a></li>
+  <li><a href="#支配率と勝率の可視化" id="toc-支配率と勝率の可視化" class="nav-link" data-scroll-target="#支配率と勝率の可視化"><span class="header-section-number">4.3</span> 支配率と勝率の可視化</a></li>
+  <li><a href="#勝敗別の支配率分布" id="toc-勝敗別の支配率分布" class="nav-link" data-scroll-target="#勝敗別の支配率分布"><span class="header-section-number">4.4</span> 勝敗別の支配率分布</a></li>
+  <li><a href="#ロジスティック回帰の結果" id="toc-ロジスティック回帰の結果" class="nav-link" data-scroll-target="#ロジスティック回帰の結果"><span class="header-section-number">4.5</span> ロジスティック回帰の結果</a></li>
+  <li><a href="#勝利確率曲線" id="toc-勝利確率曲線" class="nav-link" data-scroll-target="#勝利確率曲線"><span class="header-section-number">4.6</span> 勝利確率曲線</a></li>
   <li><a href="#考察" id="toc-考察" class="nav-link" data-scroll-target="#考察"><span class="header-section-number">4.7</span> 考察</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -240,42 +268,48 @@ div.csl-indent {
 </ul>
 </div>
 </div>
-<section id="モデル学習" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="モデル学習"><span class="header-section-number">4.1</span> モデル学習</h2>
-<p>第2章と同一のデータを読み込み、訓練データ（80%）とテストデータ（20%）に分割した。線形回帰（<code>lm</code>）と回帰木（<code>rpart</code>）の2モデルを学習させた。</p>
+<section id="分析の実行" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="分析の実行"><span class="header-section-number">4.1</span> 分析の実行</h2>
+<p>前章で定義した手法をもとに、analysis_data（760試合）を用いて相関分析とロジスティック回帰を実施した。</p>
 </section>
-<section id="精度比較" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="精度比較"><span class="header-section-number">4.2</span> 精度比較</h2>
-<p><a href="#tbl-accuracy" class="quarto-xref">表&nbsp;<span>4.1</span></a> に各モデルのテストデータに対する精度評価結果を示す。</p>
+<section id="相関分析の結果" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="相関分析の結果"><span class="header-section-number">4.2</span> 相関分析の結果</h2>
+<p><a href="#tbl-correlation" class="quarto-xref">表&nbsp;<span>4.1</span></a> にチーム単位・試合単位それぞれの相関係数とp値を示す。</p>
 <div class="cell">
-<div id="tbl-accuracy" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-correlation" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-表&nbsp;4.1: モデル精度の比較
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;4.1: ボール支配率と勝敗指標の相関係数
 </figcaption>
-<div aria-describedby="tbl-accuracy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">モデル</th>
-<th style="text-align: right;">MAE</th>
-<th style="text-align: right;">RMSE</th>
-<th style="text-align: right;">R²</th>
+<th style="text-align: left;">集計単位</th>
+<th style="text-align: left;">目的変数</th>
+<th style="text-align: right;">相関係数</th>
+<th style="text-align: left;">p値</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">線形回帰</td>
-<td style="text-align: right;">39.59</td>
-<td style="text-align: right;">48.94</td>
-<td style="text-align: right;">0.19</td>
+<td style="text-align: left;">チーム単位（n=20）</td>
+<td style="text-align: left;">勝率</td>
+<td style="text-align: right;">0.361</td>
+<td style="text-align: left;">0.118</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">回帰木（rpart）</td>
-<td style="text-align: right;">18.46</td>
-<td style="text-align: right;">23.25</td>
-<td style="text-align: right;">0.82</td>
+<td style="text-align: left;">チーム単位（n=20）</td>
+<td style="text-align: left;">平均勝ち点</td>
+<td style="text-align: right;">0.398</td>
+<td style="text-align: left;">0.0824</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">試合単位（n=760）</td>
+<td style="text-align: left;">勝利フラグ（点二列相関）</td>
+<td style="text-align: right;">-0.186</td>
+<td style="text-align: left;">2.49e-07</td>
 </tr>
 </tbody>
 </table>
@@ -284,130 +318,114 @@ div.csl-indent {
 </figure>
 </div>
 </div>
-<p>回帰木は全ての指標で線形回帰を上回っており、非線形な利用パターンの捕捉に有効であることが示された。</p>
 </section>
-<section id="予測結果の可視化" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="予測結果の可視化"><span class="header-section-number">4.3</span> 予測結果の可視化</h2>
-<p><a href="#fig-pred-timeseries" class="quarto-xref">図&nbsp;<span>4.1</span></a> にテストデータの先頭200件における実測値と予測値の比較を示す。</p>
+<section id="支配率と勝率の可視化" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="支配率と勝率の可視化"><span class="header-section-number">4.3</span> 支配率と勝率の可視化</h2>
+<p><a href="#fig-scatter-winrate" class="quarto-xref">図&nbsp;<span>4.1</span></a> にチーム単位の平均支配率と勝率の散布図を示す。</p>
+<div class="cell">
+<div id="fig-scatter-winrate" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-scatter-winrate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e715587fd303b594a5e9" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e715587fd303b594a5e9">{"x":{"visdat":{"176c3dc7f46":["function () ","plotlyVisDat"],"176c7f15e34":["function () ","data"],"176c62e4459b":["function () ","data"]},"cur_data":"176c62e4459b","attrs":{"176c7f15e34":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","text":{},"hovertemplate":"<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","marker":{"size":10,"color":"#2F5496","opacity":0.69999999999999996},"showlegend":false,"inherit":true},"176c62e4459b":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","line":{"color":"#D9534F","dash":"dash","width":1.5},"hoverinfo":"skip","showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"平均ボール支配率（%）"},"yaxis":{"domain":[0,1],"automargin":true,"title":"勝率"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[55.289473684210527,51.210526315789473,46.526315789473685,52.94736842105263,52.657894736842103,52.026315789473685,60.184210526315788,50.868421052631582,53.368421052631582,48.210526315789473,44.684210526315788,47.315789473684212,54.236842105263158,41.973684210526315,51.184210526315788,49.94736842105263,46.789473684210527,51.789473684210527,41.05263157894737,48.44736842105263],"y":[0.36842105263157893,0.34210526315789475,0.31578947368421051,0.44736842105263158,0.52631578947368418,0.60526315789473684,0.55263157894736847,0.39473684210526316,0.47368421052631576,0.5,0.44736842105263158,0.28947368421052633,0.10526315789473684,0.31578947368421051,0.28947368421052633,0.21052631578947367,0.28947368421052633,0.42105263157894735,0.23684210526315788,0.31578947368421051],"type":"scatter","mode":"markers","text":["cerezo","fctokyo","fukuoka","gamba","hiroshima","kashima","kashiwa","kawasaki","kobe","kyoto","machida","nagoya","niigata","okayama","shimizu","shonan","tokyov","urawa","yokohamafc","yokohamafm"],"hovertemplate":["<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>"],"marker":{"color":"#2F5496","size":10,"opacity":0.69999999999999996,"line":{"color":"rgba(31,119,180,1)"}},"showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[41.05263157894737,41.245879851143009,41.439128123338648,41.632376395534294,41.825624667729933,42.018872939925572,42.212121212121211,42.405369484316857,42.598617756512496,42.791866028708135,42.985114300903774,43.178362573099413,43.371610845295059,43.564859117490698,43.758107389686337,43.951355661881976,44.144603934077622,44.337852206273261,44.5311004784689,44.724348750664539,44.917597022860178,45.110845295055825,45.304093567251464,45.497341839447103,45.690590111642742,45.883838383838388,46.077086656034027,46.270334928229666,46.463583200425305,46.656831472620951,46.85007974481659,47.043328017012229,47.236576289207868,47.429824561403507,47.623072833599153,47.816321105794792,48.009569377990431,48.20281765018607,48.396065922381709,48.589314194577355,48.782562466772994,48.975810738968633,49.169059011164272,49.362307283359911,49.555555555555557,49.748803827751196,49.942052099946835,50.135300372142481,50.32854864433812,50.521796916533759,50.715045188729398,50.908293460925037,51.101541733120683,51.294790005316322,51.488038277511961,51.6812865497076,51.874534821903239,52.067783094098885,52.261031366294525,52.454279638490164,52.647527910685803,52.840776182881442,53.034024455077088,53.227272727272727,53.420520999468366,53.613769271664012,53.807017543859651,54.00026581605529,54.193514088250929,54.386762360446568,54.580010632642214,54.773258904837853,54.966507177033492,55.159755449229131,55.35300372142477,55.546251993620416,55.739500265816055,55.932748538011694,56.125996810207333,56.319245082402972,56.512493354598618,56.705741626794257,56.898989898989896,57.092238171185542,57.285486443381174,57.47873471557682,57.671982987772459,57.865231259968098,58.058479532163744,58.251727804359383,58.444976076555022,58.638224348750668,58.8314726209463,59.024720893141946,59.217969165337585,59.411217437533224,59.604465709728871,59.797713981924502,59.990962254120149,60.184210526315788],"y":[0.28336060945160302,0.28527542714764792,0.28719024484369282,0.28910506253973778,0.29101988023578268,0.29293469793182753,0.29484951562787243,0.29676433332391738,0.29867915101996229,0.30059396871600713,0.30250878641205203,0.30442360410809693,0.30633842180414189,0.30825323950018674,0.31016805719623164,0.31208287489227654,0.3139976925883215,0.3159125102843664,0.31782732798041125,0.31974214567645615,0.32165696337250105,0.323571781068546,0.32548659876459085,0.32740141646063575,0.32931623415668065,0.33123105185272561,0.33314586954877046,0.33506068724481536,0.33697550494086026,0.33889032263690522,0.34080514033295006,0.34271995802899496,0.34463477572503987,0.34654959342108477,0.34846441111712972,0.35037922881317457,0.35229404650921947,0.35420886420526437,0.35612368190130922,0.35803849959735418,0.35995331729339908,0.36186813498944398,0.36378295268548883,0.36569777038153373,0.36761258807757868,0.36952740577362359,0.37144222346966849,0.37335704116571344,0.37527185886175829,0.37718667655780314,0.37910149425384809,0.38101631194989294,0.3829311296459379,0.38484594734198285,0.3867607650380277,0.38867558273407254,0.3905904004301175,0.39250521812616246,0.3944200358222073,0.39633485351825215,0.39824967121429711,0.40016448891034195,0.40207930660638691,0.40399412430243176,0.40590894199847671,0.40782375969452167,0.40973857739056652,0.41165339508661136,0.41356821278265632,0.41548303047870117,0.41739784817474612,0.41931266587079097,0.42122748356683593,0.42314230126288077,0.42505711895892562,0.42697193665497057,0.42888675435101553,0.43080157204706038,0.43271638974310522,0.43463120743915018,0.43654602513519514,0.43846084283123998,0.44037566052728494,0.4422904782233299,0.44420529591937463,0.44612011361541959,0.44803493131146455,0.44994974900750939,0.45186456670355435,0.45377938439959919,0.45569420209564415,0.45760901979168911,0.45952383748773384,0.4614386551837788,0.46335347287982376,0.4652682905758686,0.46718310827191356,0.46909792596795841,0.47101274366400336,0.47292756136004821],"type":"scatter","mode":"lines","line":{"color":"#D9534F","dash":"dash","width":1.5},"hoverinfo":["skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip"],"showlegend":false,"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-winrate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;4.1: チーム別平均ボール支配率と勝率の関係
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="勝敗別の支配率分布" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="勝敗別の支配率分布"><span class="header-section-number">4.4</span> 勝敗別の支配率分布</h2>
+<p><a href="#fig-boxplot-result" class="quarto-xref">図&nbsp;<span>4.2</span></a> に勝敗別のボール支配率の分布を示す。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-pred-timeseries" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-boxplot-result" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-pred-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-pred-timeseries-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;4.1: 実測値と予測値の比較（テストデータ先頭200件）"><img src="04_結果と考察_files/figure-html/fig-pred-timeseries-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-boxplot-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_結果と考察_files/figure-html/fig-boxplot-result-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;4.2: 勝敗別ボール支配率の分布"><img src="04_結果と考察_files/figure-html/fig-boxplot-result-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pred-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.1: 実測値と予測値の比較（テストデータ先頭200件）
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;4.2: 勝敗別ボール支配率の分布
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="誤差分析" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="誤差分析"><span class="header-section-number">4.4</span> 誤差分析</h2>
+<section id="ロジスティック回帰の結果" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="ロジスティック回帰の結果"><span class="header-section-number">4.5</span> ロジスティック回帰の結果</h2>
+<p><a href="#tbl-logistic" class="quarto-xref">表&nbsp;<span>4.2</span></a> に推定された回帰係数、オッズ比、およびp値を示す。</p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-error-hist" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-error-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-error-hist-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;4.2: 予測誤差の分布"><img src="04_結果と考察_files/figure-html/fig-error-hist-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-hist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.2: 予測誤差の分布
+<div id="tbl-logistic" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-logistic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+表&nbsp;4.2: ロジスティック回帰の推定結果
 </figcaption>
+<div aria-describedby="tbl-logistic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">係数名</th>
+<th style="text-align: right;">推定値</th>
+<th style="text-align: right;">オッズ比</th>
+<th style="text-align: left;">p値</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">切片（β₀）</td>
+<td style="text-align: right;">1.3223</td>
+<td style="text-align: right;">3.7519</td>
+<td style="text-align: left;">3.47e-04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">支配率（β₁）</td>
+<td style="text-align: right;">-0.0373</td>
+<td style="text-align: right;">0.9634</td>
+<td style="text-align: left;">4.46e-07</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </figure>
 </div>
 </div>
-</div>
-<p><a href="#fig-error-hist" class="quarto-xref">図&nbsp;<span>4.2</span></a> より、回帰木の誤差分布は線形回帰と比べて中心（誤差ゼロ付近）に集中しており、予測のばらつきが小さいことが確認できる。</p>
+<p>McFadden の疑似決定係数は <span class="math inline">\(R^2_{\text{McF}}\)</span> = 0.027 であった。</p>
 </section>
-<section id="変数重要度" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="変数重要度"><span class="header-section-number">4.5</span> 変数重要度</h2>
+<section id="勝利確率曲線" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="勝利確率曲線"><span class="header-section-number">4.6</span> 勝利確率曲線</h2>
+<p><a href="#fig-logit-curve" class="quarto-xref">図&nbsp;<span>4.3</span></a> に推定されたロジスティック回帰曲線（支配率と勝利確率の関係）を示す。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-importance" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-logit-curve" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-importance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-importance-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="図&nbsp;4.3: 回帰木の変数重要度"><img src="04_結果と考察_files/figure-html/fig-importance-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-logit-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_結果と考察_files/figure-html/fig-logit-curve-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;4.3: ボール支配率と推定勝利確率"><img src="04_結果と考察_files/figure-html/fig-logit-curve-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-importance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.3: 回帰木の変数重要度
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logit-curve-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;4.3: ボール支配率と推定勝利確率
 </figcaption>
 </figure>
-</div>
-</div>
-</div>
-<p><a href="#fig-importance" class="quarto-xref">図&nbsp;<span>4.3</span></a> より、<code>hour</code>（時間帯）と <code>temperature</code>（気温）が予測への寄与度が最も高い変数であることがわかる。</p>
-</section>
-<section id="曜日別精度" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="曜日別精度"><span class="header-section-number">4.6</span> 曜日別精度</h2>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">MAE</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">RMSE</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-wday-mae" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-wday-mae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-wday-mae-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="図&nbsp;4.4: 曜日別 MAE（回帰木）"><img src="04_結果と考察_files/figure-html/fig-wday-mae-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wday-mae-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.4: 曜日別 MAE（回帰木）
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-wday-rmse" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-wday-rmse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="04_結果と考察_files/figure-html/fig-wday-rmse-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="図&nbsp;4.5: 曜日別 RMSE（回帰木）"><img src="04_結果と考察_files/figure-html/fig-wday-rmse-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wday-rmse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;4.5: 曜日別 RMSE（回帰木）
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 </section>
-<section id="考察" class="level2 page-columns page-full" data-number="4.7">
+<section id="考察" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="考察"><span class="header-section-number">4.7</span> 考察</h2>
 <p>本章の分析結果から、以下の考察が得られる。</p>
-<section id="モデル性能について" class="level3">
-<h3 class="anchored" data-anchor-id="モデル性能について">モデル性能について</h3>
-<p>回帰木は線形回帰と比較して全ての評価指標で優れた性能を示した（<a href="#tbl-accuracy" class="quarto-xref">表&nbsp;<span>4.1</span></a>）。これは、シェアサイクルの利用パターンが時間帯や気象条件と<strong>非線形な関係</strong>を持つためと考えられる。例えば、通勤時間帯（7-9時、17-19時）に利用数が集中するパターンは、線形モデルでは捉えにくい。</p>
+<section id="集計レベルによる相関の違いについて" class="level3">
+<h3 class="anchored" data-anchor-id="集計レベルによる相関の違いについて">集計レベルによる相関の違いについて</h3>
+<p>チーム単位では支配率と勝率の間に正の相関（<a href="#tbl-correlation" class="quarto-xref">表&nbsp;<span>4.1</span></a>）が見られた一方、試合単位では弱い負の相関が示された。この乖離は、試合状況によって支配率の意味が変化することを示唆している。リードしているチームが意図的にボールを手放す、あるいは劣勢のチームが攻勢をかけることで支配率が上昇するといった状況依存的なパターンが背景にあると考えられる <span class="citation" data-cites="Lago2009">(<a href="#ref-Lago2009" role="doc-biblioref"><strong>Lago2009?</strong></a>)</span>。</p>
 </section>
-<section id="影響要因について" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="影響要因について">影響要因について</h3>
-<p>変数重要度分析（<a href="#fig-importance" class="quarto-xref">図&nbsp;<span>4.3</span></a>）から、以下の知見が得られた。</p>
-<ol type="1">
-<li><strong>時間帯（hour）</strong> が最も重要な変数であり、シェアサイクルの利用は通勤・通学の移動パターンに強く依存している</li>
-<li><strong>気温（temperature）</strong> が2番目に重要であり、気象条件がシェアサイクルの利用判断に大きく影響する。先行研究 <span class="citation" data-cites="Eren2020">(<a href="#ref-Eren2020" role="doc-biblioref">Eren と Uz 2020年</a>)</span> の知見とも一致する</li>
-<li><strong>降雨（is_rain）</strong> は利用数を大きく減少させる要因であり、需要予測において重要な変数である</li>
-</ol>
-<div class="no-row-height column-margin column-container"><div id="ref-Eren2020" class="csl-entry" role="listitem">
-Eren, Emir, と Volkan Emre Uz. 2020年. <span>「A Review on Bike-Sharing: The Factors Affecting Bike-Sharing Demand」</span>. <em>Sustainable Cities and Society</em> 54: 101882. <a href="https://doi.org/10.1016/j.scs.2019.101882">https://doi.org/10.1016/j.scs.2019.101882</a>.
-</div></div></section>
-<section id="先行研究との比較" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="先行研究との比較">先行研究との比較</h3>
-<p><span class="citation" data-cites="Fanaee2014">Fanaee-T と Gama (<a href="#ref-Fanaee2014" role="doc-biblioref">2014年</a>)</span> が示したバイクシェアリングデータにおけるイベント検出の知見と同様に、気象条件と時間帯が利用パターンの主要な決定要因であることが確認された。また、<span class="citation" data-cites="Singhvi2015">Singhvi ほか (<a href="#ref-Singhvi2015" role="doc-biblioref">2015年</a>)</span> が報告した NYC Citi Bike の予測事例と比較しても、非線形手法の有効性は同様の傾向を示している。</p>
+<section id="ロジスティック回帰の結果について" class="level3">
+<h3 class="anchored" data-anchor-id="ロジスティック回帰の結果について">ロジスティック回帰の結果について</h3>
+<p><span class="math inline">\(\beta_1\)</span> の推定値とオッズ比（<a href="#tbl-logistic" class="quarto-xref">表&nbsp;<span>4.2</span></a>）から、支配率が勝利確率に与える影響の方向と強さを解釈できる。ただし <span class="math inline">\(R^2_{\text{McF}}\)</span> が低い場合、支配率単独では勝敗を十分に説明できないことを意味し、シュート数や失点など他の要因との組み合わせによる分析が今後の課題となる。</p>
 
 
-<div class="no-row-height column-margin column-container"><div id="ref-Fanaee2014" class="csl-entry" role="listitem">
-Fanaee-T, Hadi, と João Gama. 2014年. <span>「Event Labeling Combining Ensemble Detectors and Background Knowledge」</span>. <em>Progress in Artificial Intelligence</em> 2 (2–3): 113–27. <a href="https://doi.org/10.1007/s13748-013-0040-3">https://doi.org/10.1007/s13748-013-0040-3</a>.
-</div><div id="ref-Singhvi2015" class="csl-entry" role="listitem">
-Singhvi, Divya, Somya Singhvi, Peter I. Frazier, ほか. 2015年. <span>「Predicting Bike-Share Usage in Practice: <span>NYC</span> Citi Bike Case Study」</span>. <em>INFORMS Transportation Science and Logistics Society Workshop</em>.
-</div></div>
 </section>
 </section>
 

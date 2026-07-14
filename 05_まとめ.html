@@ -72,6 +72,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -211,30 +240,30 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="研究成果の要約" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="研究成果の要約"><span class="header-section-number">5.1</span> 研究成果の要約</h2>
-<p>本研究では、東京都内のシェアサイクル利用数を予測するモデルの構築を行い、以下の成果を得た。</p>
+<p>本研究では、J1リーグ2025シーズン全20チーム・760試合のデータを用いて、ボール支配率と勝敗・勝ち点の関係を定量的に分析し、以下の成果を得た。</p>
 <ol type="1">
-<li><p><strong>データの特性把握：</strong> シェアサイクルの利用数は気温・降雨・曜日・時間帯によって大きく変動することを確認した。特に気温との正の相関と、降雨時の利用数減少が顕著であった。</p></li>
-<li><p><strong>予測モデルの構築と比較：</strong> 線形回帰と回帰木（rpart）の2手法でモデルを構築し、回帰木が全ての評価指標で優れた精度を示した。回帰木のRMSEは線形回帰と比較して改善が得られた。</p></li>
-<li><p><strong>影響要因の特定：</strong> 変数重要度分析により、時間帯（hour）と気温（temperature）が利用数の予測に最も寄与する変数であることを明らかにした。</p></li>
+<li><p><strong>集計レベルによる相関の違いの確認：</strong> チーム単位（シーズン平均）では支配率と勝率の間に正の相関が見られた一方、試合単位（760試合）では弱い負の相関が示された。集計レベルによって関係の向きが逆転するという、直感に反する結果を確認した。</p></li>
+<li><p><strong>試合状況依存性の示唆：</strong> 支配率が高い試合ほど勝率が低い傾向は、リードしているチームが意図的に支配率を下げる、あるいは劣勢のチームが攻勢をかけることで支配率が上昇するという試合状況依存的なパターンによって説明できる可能性を示した。</p></li>
+<li><p><strong>ロジスティック回帰による勝利確率の推定：</strong> 支配率を説明変数としたロジスティック回帰を実施し、回帰係数・オッズ比・疑似決定係数（<span class="math inline">\(R^2_{\text{McF}}\)</span>）を算出した。疑似決定係数が低い値にとどまったことから、支配率単独では勝敗を十分に説明できないことを定量的に示した。</p></li>
 </ol>
 </section>
 <section id="研究の限界" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="研究の限界"><span class="header-section-number">5.2</span> 研究の限界</h2>
 <p>本研究には以下の限界がある。</p>
 <ul>
-<li><strong>合成データの使用：</strong> 本テンプレートでは分析手法の実演を目的として合成データを使用している。実際の研究では、自治体やサービス事業者が公開する実データを用いる必要がある。</li>
-<li><strong>空間的要因の未考慮：</strong> ステーションの立地（駅からの距離、オフィス街かどうか等）を変数に含めていない。</li>
-<li><strong>モデルの単純さ：</strong> 回帰木の剪定パラメータのチューニングを最小限に留めており、ランダムフォレストや勾配ブースティング等のアンサンブル手法で精度向上の余地がある。</li>
+<li><strong>説明変数の限定：</strong> 支配率のみを説明変数として扱っており、シュート数・失点・対戦相手の強さ・ホーム/アウェイといった他の要因を統制できていない。</li>
+<li><strong>試合状況の未考慮：</strong> 試合のスコア推移（先制・ビハインドの状態）を変数に含めておらず、支配率の変化が原因か結果かを判別できていない。</li>
+<li><strong>データの制約：</strong> FBref.comから取得した試合単位の集計データを使用しており、時間帯別・選手別の詳細データは含まれていない。</li>
 </ul>
 </section>
 <section id="今後の課題" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="今後の課題"><span class="header-section-number">5.3</span> 今後の課題</h2>
 <ul class="task-list">
-<li><label><input type="checkbox">実データ（自治体オープンデータ等）を用いた分析の実施</label></li>
-<li><label><input type="checkbox">ステーション別の利用予測モデルの構築</label></li>
-<li><label><input type="checkbox">ランダムフォレストや勾配ブースティング等の高度な手法との比較</label></li>
-<li><label><input type="checkbox">リアルタイム予測システムのプロトタイプ開発</label></li>
-<li><label><input type="checkbox">需要予測に基づく最適な自転車再配置アルゴリズムの検討</label></li>
+<li><label><input type="checkbox">ホーム/アウェイ・対戦相手の勝ち点を統制変数に加えた重回帰・重ロジスティック回帰の実施</label></li>
+<li><label><input type="checkbox">試合のスコア状況（先制・同点・ビハインド）別に支配率の影響を分けた分析</label></li>
+<li><label><input type="checkbox">シュート数・枠内シュート数など他の戦術指標との複合的な分析</label></li>
+<li><label><input type="checkbox">複数シーズンのデータを用いた時系列的な傾向の検証</label></li>
+<li><label><input type="checkbox">クラブ別の戦術スタイル分類と成績の関係についての考察</label></li>
 </ul>
 </section>
 <section id="謝辞" class="level2" data-number="5.4">

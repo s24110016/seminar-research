@@ -79,6 +79,24 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
@@ -171,9 +189,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#データの準備" id="toc-データの準備" class="nav-link" data-scroll-target="#データの準備"><span class="header-section-number">2.2</span> データの準備</a></li>
   <li><a href="#データ概要" id="toc-データ概要" class="nav-link" data-scroll-target="#データ概要"><span class="header-section-number">2.3</span> データ概要</a></li>
   <li><a href="#基本統計量" id="toc-基本統計量" class="nav-link" data-scroll-target="#基本統計量"><span class="header-section-number">2.4</span> 基本統計量</a></li>
-  <li><a href="#時系列の可視化" id="toc-時系列の可視化" class="nav-link" data-scroll-target="#時系列の可視化"><span class="header-section-number">2.5</span> 時系列の可視化</a></li>
-  <li><a href="#気象データとの関係" id="toc-気象データとの関係" class="nav-link" data-scroll-target="#気象データとの関係"><span class="header-section-number">2.6</span> 気象データとの関係</a></li>
-  <li><a href="#曜日時間帯パターン" id="toc-曜日時間帯パターン" class="nav-link" data-scroll-target="#曜日時間帯パターン"><span class="header-section-number">2.7</span> 曜日・時間帯パターン</a></li>
+  <li><a href="#支配率の分布" id="toc-支配率の分布" class="nav-link" data-scroll-target="#支配率の分布"><span class="header-section-number">2.5</span> 支配率の分布</a></li>
+  <li><a href="#勝敗別の支配率" id="toc-勝敗別の支配率" class="nav-link" data-scroll-target="#勝敗別の支配率"><span class="header-section-number">2.6</span> 勝敗別の支配率</a></li>
+  <li><a href="#支配率と勝率の関係" id="toc-支配率と勝率の関係" class="nav-link" data-scroll-target="#支配率と勝率の関係"><span class="header-section-number">2.7</span> 支配率と勝率の関係</a></li>
   <li><a href="#前処理パイプライン" id="toc-前処理パイプライン" class="nav-link" data-scroll-target="#前処理パイプライン"><span class="header-section-number">2.8</span> 前処理パイプライン</a></li>
   </ul>
 </nav>
@@ -250,15 +268,15 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>利用データ</td>
-<td>東京都シェアサイクル事業オープンデータ（※実際の出典に置き換えてください）</td>
+<td>FBref.com J1リーグ 2025シーズン 各チーム試合結果データ</td>
 </tr>
 <tr class="even">
-<td>気象データ</td>
-<td>気象庁 過去の気象データ検索（※実際の出典に置き換えてください）</td>
+<td>取得方法</td>
+<td>　各チーム公式戦績ページ（試合別スタッツ）をチームごとにCSVとして取得</td>
 </tr>
 <tr class="odd">
 <td>取得日</td>
-<td>2025年○月○日</td>
+<td>2026年5月25日</td>
 </tr>
 <tr class="even">
 <td>前処理スクリプト</td>
@@ -272,10 +290,24 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="データの準備" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="データの準備"><span class="header-section-number">2.2</span> データの準備</h2>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
 </section>
 <section id="データ概要" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="データ概要"><span class="header-section-number">2.3</span> データ概要</h2>
-<p>本研究では、東京都内のシェアサイクル利用数と気象データを組み合わせた合成データセットを使用する。</p>
+<p>本研究では、FBref.comより取得したJ1リーグ2025シーズンの全試合データを使用する。</p>
 <div id="tbl-data-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-data-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -283,6 +315,10 @@ ul.task-list li input[type="checkbox"] {
 </figcaption>
 <div aria-describedby="tbl-data-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>項目</th>
@@ -292,23 +328,27 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>対象期間</td>
-<td>2024年1月1日 〜 2024年12月31日（365日間）</td>
+<td>2025年2月 〜 2025年12月</td>
 </tr>
 <tr class="even">
-<td>時間粒度</td>
-<td>1時間単位</td>
+<td>対象チーム</td>
+<td>J1リーグ全20チーム</td>
 </tr>
 <tr class="odd">
+<td>データ粒度</td>
+<td>1試合単位</td>
+</tr>
+<tr class="even">
 <td>レコード数</td>
-<td>8,760件（365日 × 24時間）</td>
-</tr>
-<tr class="even">
-<td>目的変数</td>
-<td>1時間あたりの利用数（count）</td>
+<td>760件（20チーム × 38試合）</td>
 </tr>
 <tr class="odd">
+<td>目的変数</td>
+<td>勝敗結果（win）・勝ち点（Points）</td>
+</tr>
+<tr class="even">
 <td>説明変数</td>
-<td>気温、湿度、風速、降雨有無、曜日、時間帯</td>
+<td>ボール支配率、シュート数、枠内シュート数、得失点、開催地（ホーム/アウェイ）など　</td>
 </tr>
 </tbody>
 </table>
@@ -336,44 +376,86 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>date</code></td>
 <td>Date</td>
-<td>日付</td>
+<td>試合日</td>
 <td>-</td>
 </tr>
 <tr class="even">
-<td><code>hour</code></td>
-<td>integer</td>
-<td>時間帯（0–23）</td>
-<td>時</td>
+<td><code>Round</code></td>
+<td>character</td>
+<td>節（Matchweek ）</td>
+<td>-</td>
 </tr>
 <tr class="odd">
-<td><code>temperature</code></td>
-<td>numeric</td>
-<td>気温</td>
-<td>°C</td>
+<td><code>Venue</code></td>
+<td>character</td>
+<td>開催地（Home / Away）</td>
+<td>-</td>
 </tr>
 <tr class="even">
-<td><code>humidity</code></td>
+<td><code>Opponent</code></td>
+<td>character</td>
+<td>対戦相手</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Result</code></td>
+<td>character</td>
+<td>試合結果（W / D / L）</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>win</code></td>
+<td>integer</td>
+<td>勝利フラグ（0/1）</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Points</code></td>
+<td>integer</td>
+<td>勝ち点（W=3, D=1,L=0）</td>
+<td>点</td>
+</tr>
+<tr class="even">
+<td><code>GF</code></td>
+<td>integer</td>
+<td>得点</td>
+<td>点</td>
+</tr>
+<tr class="odd">
+<td><code>GA</code></td>
+<td>integer</td>
+<td>失点</td>
+<td>点</td>
+</tr>
+<tr class="even">
+<td><code>Sh</code></td>
+<td>integer</td>
+<td>シュート数</td>
+<td>本</td>
+</tr>
+<tr class="odd">
+<td><code>SOT</code></td>
+<td>integer</td>
+<td>枠内シュート数</td>
+<td>本</td>
+</tr>
+<tr class="even">
+<td><code>SoT%</code></td>
 <td>numeric</td>
-<td>相対湿度</td>
+<td>シュート成功率</td>
 <td>%</td>
 </tr>
 <tr class="odd">
-<td><code>wind_speed</code></td>
+<td><code>Poss</code></td>
 <td>numeric</td>
-<td>風速</td>
-<td>m/s</td>
+<td>ボール支配率</td>
+<td>%</td>
 </tr>
 <tr class="even">
-<td><code>is_rain</code></td>
-<td>integer</td>
-<td>降雨フラグ（0/1）</td>
-<td>-</td>
-</tr>
-<tr class="odd">
-<td><code>count</code></td>
-<td>integer</td>
-<td>利用数（目的変数）</td>
-<td>台</td>
+<td><code>Attendance</code></td>
+<td>numeric</td>
+<td>観客動員数</td>
+<td>人</td>
 </tr>
 </tbody>
 </table>
@@ -405,36 +487,52 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">temperature</td>
-<td style="text-align: right;">15.0</td>
-<td style="text-align: right;">9.0</td>
-<td style="text-align: right;">-6.1</td>
-<td style="text-align: right;">15.1</td>
-<td style="text-align: right;">36.0</td>
+<td style="text-align: left;">Poss</td>
+<td style="text-align: right;">50.0</td>
+<td style="text-align: right;">10.6</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">77</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">humidity</td>
-<td style="text-align: right;">60.0</td>
-<td style="text-align: right;">13.4</td>
-<td style="text-align: right;">20.0</td>
-<td style="text-align: right;">60.0</td>
-<td style="text-align: right;">100.0</td>
+<td style="text-align: left;">GF</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">1.1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">wind_speed</td>
-<td style="text-align: right;">2.5</td>
-<td style="text-align: right;">1.8</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: right;">2.1</td>
-<td style="text-align: right;">15.3</td>
+<td style="text-align: left;">GA</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">1.1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">count</td>
-<td style="text-align: right;">63.8</td>
-<td style="text-align: right;">54.0</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: right;">48.0</td>
-<td style="text-align: right;">277.0</td>
+<td style="text-align: left;">Sh</td>
+<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">4.4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SoT</td>
+<td style="text-align: right;">3.8</td>
+<td style="text-align: right;">2.2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Attendance</td>
+<td style="text-align: right;">21193.0</td>
+<td style="text-align: right;">9843.7</td>
+<td style="text-align: right;">3707</td>
+<td style="text-align: right;">19654</td>
+<td style="text-align: right;">59574</td>
 </tr>
 </tbody>
 </table>
@@ -444,81 +542,59 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="時系列の可視化" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="時系列の可視化"><span class="header-section-number">2.5</span> 時系列の可視化</h2>
-<p><a href="#fig-timeseries" class="quarto-xref">図&nbsp;<span>2.1</span></a> は日別の平均利用数の推移を示す。夏季に利用数が増加し、冬季に減少する季節パターンが確認できる。</p>
+<section id="支配率の分布" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="支配率の分布"><span class="header-section-number">2.5</span> 支配率の分布</h2>
+<p><a href="#fig-poss-team" class="quarto-xref">図&nbsp;<span>2.1</span></a> は各チームの平均ボール支配率を示す。チームによって40〜60%と大きな差があり、戦術的スタイルの違いが数字に表れている。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-timeseries" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-poss-team" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-timeseries-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;2.1: 日別平均利用数の推移"><img src="02_データ_files/figure-html/fig-timeseries-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-poss-team-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-poss-team-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="図&nbsp;2.1: チーム別平均ボール支配率"><img src="02_データ_files/figure-html/fig-poss-team-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeseries-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.1: 日別平均利用数の推移
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poss-team-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.1: チーム別平均ボール支配率
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="気象データとの関係" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="気象データとの関係"><span class="header-section-number">2.6</span> 気象データとの関係</h2>
-<p><a href="#fig-scatter-temp" class="quarto-xref">図&nbsp;<span>2.2</span></a> は気温と利用数の関係を示す散布図である。気温が高いほど利用数が増加する正の相関が認められる。</p>
+<section id="勝敗別の支配率" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="勝敗別の支配率"><span class="header-section-number">2.6</span> 勝敗別の支配率</h2>
+<p><a href="#fig-poss-result" class="quarto-xref">図&nbsp;<span>2.2</span></a> は勝敗別にボール支配率の分布を示した箱ひげ図である。勝利試合・引き分け・敗北試合の間で支配率の分布に差があるかを確認する。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-scatter-temp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-poss-result" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-scatter-temp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-scatter-temp-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;2.2: 気温と利用数の関係"><img src="02_データ_files/figure-html/fig-scatter-temp-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-poss-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="02_データ_files/figure-html/fig-poss-result-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="図&nbsp;2.2: 勝敗別ボール支配率の分布"><img src="02_データ_files/figure-html/fig-poss-result-1.png" class="img-fluid figure-img" width="672"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatter-temp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.2: 気温と利用数の関係
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poss-result-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.2: 勝敗別ボール支配率の分布
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="曜日時間帯パターン" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="曜日時間帯パターン"><span class="header-section-number">2.7</span> 曜日・時間帯パターン</h2>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">時間帯別</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">曜日別</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="支配率と勝率の関係" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="支配率と勝率の関係"><span class="header-section-number">2.7</span> 支配率と勝率の関係</h2>
+<p><a href="#fig-poss-winrate" class="quarto-xref">図&nbsp;<span>2.3</span></a> はチーム単位の平均支配率と勝率の関係を示す散布図である。</p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-hourly-pattern" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-poss-winrate" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-hourly-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-hourly-pattern-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="図&nbsp;2.3: 時間帯別の平均利用数"><img src="02_データ_files/figure-html/fig-hourly-pattern-1.png" class="img-fluid figure-img" width="672"></a>
+<div aria-describedby="fig-poss-winrate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-9c63053697b04819cd3d" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9c63053697b04819cd3d">{"x":{"visdat":{"6ed42b575baa":["function () ","plotlyVisDat"],"6ed44f3c6012":["function () ","data"],"6ed43f602eb5":["function () ","data"]},"cur_data":"6ed43f602eb5","attrs":{"6ed44f3c6012":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","text":{},"hovertemplate":"<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","marker":{"size":10,"color":"#2F5496","opacity":0.69999999999999996},"showlegend":false,"inherit":true},"6ed43f602eb5":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","line":{"color":"#D9534F","dash":"dash","width":1.5},"hoverinfo":"skip","showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"平均ボール支配率（%）"},"yaxis":{"domain":[0,1],"automargin":true,"title":"勝率"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[55.289473684210527,51.210526315789473,46.526315789473685,52.94736842105263,52.657894736842103,52.026315789473685,60.184210526315788,50.868421052631582,53.368421052631582,48.210526315789473,44.684210526315788,47.315789473684212,54.236842105263158,41.973684210526315,51.184210526315788,49.94736842105263,46.789473684210527,51.789473684210527,41.05263157894737,48.44736842105263],"y":[0.36842105263157893,0.34210526315789475,0.31578947368421051,0.44736842105263158,0.52631578947368418,0.60526315789473684,0.55263157894736847,0.39473684210526316,0.47368421052631576,0.5,0.44736842105263158,0.28947368421052633,0.10526315789473684,0.31578947368421051,0.28947368421052633,0.21052631578947367,0.28947368421052633,0.42105263157894735,0.23684210526315788,0.31578947368421051],"type":"scatter","mode":"markers","text":["cerezo","fctokyo","fukuoka","gamba","hiroshima","kashima","kashiwa","kawasaki","kobe","kyoto","machida","nagoya","niigata","okayama","shimizu","shonan","tokyov","urawa","yokohamafc","yokohamafm"],"hovertemplate":["<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>","<b>%{text}<\/b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra><\/extra>"],"marker":{"color":"#2F5496","size":10,"opacity":0.69999999999999996,"line":{"color":"rgba(31,119,180,1)"}},"showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[41.05263157894737,41.245879851143009,41.439128123338648,41.632376395534294,41.825624667729933,42.018872939925572,42.212121212121211,42.405369484316857,42.598617756512496,42.791866028708135,42.985114300903774,43.178362573099413,43.371610845295059,43.564859117490698,43.758107389686337,43.951355661881976,44.144603934077622,44.337852206273261,44.5311004784689,44.724348750664539,44.917597022860178,45.110845295055825,45.304093567251464,45.497341839447103,45.690590111642742,45.883838383838388,46.077086656034027,46.270334928229666,46.463583200425305,46.656831472620951,46.85007974481659,47.043328017012229,47.236576289207868,47.429824561403507,47.623072833599153,47.816321105794792,48.009569377990431,48.20281765018607,48.396065922381709,48.589314194577355,48.782562466772994,48.975810738968633,49.169059011164272,49.362307283359911,49.555555555555557,49.748803827751196,49.942052099946835,50.135300372142481,50.32854864433812,50.521796916533759,50.715045188729398,50.908293460925037,51.101541733120683,51.294790005316322,51.488038277511961,51.6812865497076,51.874534821903239,52.067783094098885,52.261031366294525,52.454279638490164,52.647527910685803,52.840776182881442,53.034024455077088,53.227272727272727,53.420520999468366,53.613769271664012,53.807017543859651,54.00026581605529,54.193514088250929,54.386762360446568,54.580010632642214,54.773258904837853,54.966507177033492,55.159755449229131,55.35300372142477,55.546251993620416,55.739500265816055,55.932748538011694,56.125996810207333,56.319245082402972,56.512493354598618,56.705741626794257,56.898989898989896,57.092238171185542,57.285486443381174,57.47873471557682,57.671982987772459,57.865231259968098,58.058479532163744,58.251727804359383,58.444976076555022,58.638224348750668,58.8314726209463,59.024720893141946,59.217969165337585,59.411217437533224,59.604465709728871,59.797713981924502,59.990962254120149,60.184210526315788],"y":[0.28336060945160302,0.28527542714764792,0.28719024484369282,0.28910506253973778,0.29101988023578268,0.29293469793182753,0.29484951562787243,0.29676433332391738,0.29867915101996229,0.30059396871600713,0.30250878641205203,0.30442360410809693,0.30633842180414189,0.30825323950018674,0.31016805719623164,0.31208287489227654,0.3139976925883215,0.3159125102843664,0.31782732798041125,0.31974214567645615,0.32165696337250105,0.323571781068546,0.32548659876459085,0.32740141646063575,0.32931623415668065,0.33123105185272561,0.33314586954877046,0.33506068724481536,0.33697550494086026,0.33889032263690522,0.34080514033295006,0.34271995802899496,0.34463477572503987,0.34654959342108477,0.34846441111712972,0.35037922881317457,0.35229404650921947,0.35420886420526437,0.35612368190130922,0.35803849959735418,0.35995331729339908,0.36186813498944398,0.36378295268548883,0.36569777038153373,0.36761258807757868,0.36952740577362359,0.37144222346966849,0.37335704116571344,0.37527185886175829,0.37718667655780314,0.37910149425384809,0.38101631194989294,0.3829311296459379,0.38484594734198285,0.3867607650380277,0.38867558273407254,0.3905904004301175,0.39250521812616246,0.3944200358222073,0.39633485351825215,0.39824967121429711,0.40016448891034195,0.40207930660638691,0.40399412430243176,0.40590894199847671,0.40782375969452167,0.40973857739056652,0.41165339508661136,0.41356821278265632,0.41548303047870117,0.41739784817474612,0.41931266587079097,0.42122748356683593,0.42314230126288077,0.42505711895892562,0.42697193665497057,0.42888675435101553,0.43080157204706038,0.43271638974310522,0.43463120743915018,0.43654602513519514,0.43846084283123998,0.44037566052728494,0.4422904782233299,0.44420529591937463,0.44612011361541959,0.44803493131146455,0.44994974900750939,0.45186456670355435,0.45377938439959919,0.45569420209564415,0.45760901979168911,0.45952383748773384,0.4614386551837788,0.46335347287982376,0.4652682905758686,0.46718310827191356,0.46909792596795841,0.47101274366400336,0.47292756136004821],"type":"scatter","mode":"lines","line":{"color":"#D9534F","dash":"dash","width":1.5},"hoverinfo":["skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip"],"showlegend":false,"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hourly-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.3: 時間帯別の平均利用数
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-poss-winrate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+図&nbsp;2.3: チーム別平均ボール支配率と勝率の関係
 </figcaption>
 </figure>
 </div>
 </div>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-wday-pattern" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-wday-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="02_データ_files/figure-html/fig-wday-pattern-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="図&nbsp;2.4: 曜日別の平均利用数"><img src="02_データ_files/figure-html/fig-wday-pattern-1.png" class="img-fluid figure-img" width="672"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wday-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.4: 曜日別の平均利用数
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<p>:::</p>
 </section>
 <section id="前処理パイプライン" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="前処理パイプライン"><span class="header-section-number">2.8</span> 前処理パイプライン</h2>
@@ -529,16 +605,17 @@ ul.task-list li input[type="checkbox"] {
 <div aria-describedby="fig-preprocess-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 <pre class="mermaid mermaid-js" data-label="fig-preprocess">flowchart LR
-    A[元データ取得] --&gt; B[欠損値処理]
-    B --&gt; C[特徴量生成]
-    C --&gt; D[時間帯・曜日&lt;br&gt;ダミー変数化]
-    D --&gt; E[訓練/テスト分割]
-    E --&gt; F[モデル入力]
+    A[CSVファイル&lt;br&gt;20チーム分] --&gt; B[縦結合&lt;br&gt;team列付与]
+    B --&gt; C[win列生成&lt;br&gt;W=1 / 其他=0]
+    C --&gt; D[Points列生成&lt;br&gt;W=3 D=1 L=0]
+    D --&gt; E[Attendance&lt;br&gt;数値変換]
+    E --&gt; F[NA除外]
+    F --&gt; G[analysis_data&lt;br&gt;760試合×23列]
 </pre>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-preprocess-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-図&nbsp;2.5: データ前処理パイプライン
+図&nbsp;2.4: データ前処理パイプライン
 </figcaption>
 </figure>
 </div>

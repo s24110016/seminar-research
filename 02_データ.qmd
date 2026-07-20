@@ -1,34 +1,13 @@
 ---
 title: "データ"
 ---
-
-:::{.callout-tip title="書き方ガイド：データ"}
-**何を書くか：** 分析に使用するデータの全体像を示す章です。データの出典・構造・基本統計量・可視化を通じて、読者がデータを十分に理解できるようにします。
-
-**書き方のコツ：**
-
-- **データ概要** では、取得元・期間・サンプル数・変数の一覧を明示します
-- **基本統計量** は表形式で整理し、データの分布を把握できるようにします
-- **可視化** は目的を明確にして（例：「時系列の傾向を確認する」）、図にキャプションと番号を付けます
-- 前処理の手順はフロー図で示すと理解しやすくなります
-
-**Quartoの機能：**
-
-- R コードブロック `` ```{r} `` でデータ処理と可視化を実行できます
-- `#| label: fig-xxx` と `#| fig-cap:` で図番号とキャプションを自動付与します
-- `@fig-xxx` で本文中からクロスリファレンスできます
-- `::: {.panel-tabset}` でタブ切替パネルを作成できます
-- Mermaid 記法でフロー図を描けます
-:::
-
-
 ## データの出典
 
 | 項目 | 内容 |
 |------|------|
-| 利用データ | 東京都シェアサイクル事業オープンデータ（※実際の出典に置き換えてください） |
-| 気象データ | 気象庁 過去の気象データ検索（※実際の出典に置き換えてください） |
-| 取得日 | 2025年○月○日 |
+| 利用データ | FBref.com J1リーグ 2025シーズン 各チーム試合結果データ |
+| 取得方法 |　各チーム公式戦績ページ（試合別スタッツ）をチームごとにCSVとして取得 |
+| 取得日 | 2026年5月25日 |
 | 前処理スクリプト | `src/generate_data.R` |
 
 : データの出典 {#tbl-data-source}
@@ -38,26 +17,48 @@ title: "データ"
 
 ```{r}
 #| label: setup-data
-#| code-summary: "データ読み込み"
+#| code-summary: "データ読み込みと前処理"
 
-bike_data <- read.csv("data/bike_data.csv")
-bike_data$date <- as.Date(bike_data$date)
-bike_data$wday <- factor(bike_data$wday,
-  levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
+library(tidyverse)
+
+# 1. 「data」フォルダ内のすべてのCSVファイルの一覧を取得
+file_list <- list.files(path = "data", pattern = "\\.csv$", full.names = TRUE)
+
+# 2. 一括読み込みして縦結合(チーム名をteam列として付与)
+all_teams_data <- file_list |> 
+  set_names(basename(file_list) |> str_remove("\\.csv$")) |> 
+  map_df(~ read_csv(.x, col_types = cols(Time = "c")), .id = "team")
+
+# 3. データの下処理(前処理)
+analysis_data <- all_teams_data |> 
+  # 勝敗を1と0に変換
+  mutate(win = if_else(Result == "W", 1, 0)) |> 
+  # カンマ入りの観客数を数値に変換
+  mutate(Attendance = as.numeric(str_remove_all(Attendance, ","))) |> 
+  # 分析に必須な列の欠損値(NA)がある試合を除外
+  filter(!is.na(Poss) & !is.na(win)) |> 
+  # 勝ち点列を追加
+  mutate(Points = case_when(
+    Result == "W" ~ 3,
+    Result == "D" ~ 1,
+    Result == "L" ~ 0,
+    TRUE ~ 0
+  ))
 ```
 
 
 ## データ概要
 
-本研究では、東京都内のシェアサイクル利用数と気象データを組み合わせた合成データセットを使用する。
+本研究では、FBref.comより取得したJ1リーグ2025シーズンの全試合データを使用する。
 
 | 項目 | 内容 |
 |------|------|
-| 対象期間 | 2024年1月1日 〜 2024年12月31日（365日間） |
-| 時間粒度 | 1時間単位 |
-| レコード数 | 8,760件（365日 × 24時間） |
-| 目的変数 | 1時間あたりの利用数（count） |
-| 説明変数 | 気温、湿度、風速、降雨有無、曜日、時間帯 |
+| 対象期間 | 2025年2月 〜 2025年12月 |
+| 対象チーム | J1リーグ全20チーム |
+| データ粒度 | 1試合単位 |
+| レコード数 | 760件（20チーム × 38試合） |
+| 目的変数 | 勝敗結果（win）・勝ち点（Points） |
+| 説明変数 |  ボール支配率、シュート数、枠内シュート数、得失点、開催地（ホーム/アウェイ）など　|
 
 : データセットの概要 {#tbl-data-overview}
 
@@ -65,13 +66,20 @@ bike_data$wday <- factor(bike_data$wday,
 
 | 変数名 | 型 | 説明 | 単位 |
 |--------|-------|------|------|
-| `date` | Date | 日付 | - |
-| `hour` | integer | 時間帯（0–23） | 時 |
-| `temperature` | numeric | 気温 | °C |
-| `humidity` | numeric | 相対湿度 | % |
-| `wind_speed` | numeric | 風速 | m/s |
-| `is_rain` | integer | 降雨フラグ（0/1） | - |
-| `count` | integer | 利用数（目的変数） | 台 |
+| `date` | Date | 試合日 | - |
+| `Round`| character | 節（Matchweek ） | - |
+| `Venue` | character | 開催地（Home / Away） | - |
+| `Opponent` | character | 対戦相手 | - |
+| `Result` | character | 試合結果（W / D / L） | - |
+| `win` | integer | 勝利フラグ（0/1） | - |
+| `Points` | integer | 勝ち点（W=3, D=1,L=0） | 点 |
+| `GF` | integer | 得点 | 点 |
+| `GA` | integer | 失点 | 点 |
+| `Sh` | integer | シュート数 | 本 |
+| `SOT` | integer | 枠内シュート数 | 本 |
+| `SoT%` | numeric | シュート成功率 | % |
+| `Poss` | numeric | ボール支配率 | % |
+| `Attendance` | numeric | 観客動員数 | 人 |
 
 : 変数一覧 {#tbl-variables}
 
@@ -83,91 +91,108 @@ bike_data$wday <- factor(bike_data$wday,
 #| tbl-cap: "基本統計量"
 #| code-summary: "基本統計量の算出"
 
-vars <- c("temperature", "humidity", "wind_speed", "count")
+vars <- c("Poss", "GF", "GA", "Sh", "SoT", "Attendance")
 stats <- do.call(rbind, lapply(vars, function(v) {
-  x <- bike_data[[v]]
+  x <- analysis_data[[v]]
   data.frame(
     変数 = v,
-    平均 = round(mean(x), 1),
-    標準偏差 = round(sd(x), 1),
-    最小 = round(min(x), 1),
-    中央値 = round(median(x), 1),
-    最大 = round(max(x), 1)
+    平均 = round(mean(x, na.rm = TRUE), 1),
+    標準偏差 = round(sd(x, na.rm = TRUE), 1),
+    最小 = round(min(x, na.rm = TRUE), 1),
+    中央値 = round(median(x, na.rm = TRUE), 1),
+    最大 = round(max(x, na.rm = TRUE), 1)
   )
 }))
 knitr::kable(stats, row.names = FALSE)
 ```
 
 
-## 時系列の可視化
+## 支配率の分布
 
-@fig-timeseries は日別の平均利用数の推移を示す。夏季に利用数が増加し、冬季に減少する季節パターンが確認できる。
+@fig-poss-team は各チームの平均ボール支配率を示す。チームによって40〜60%と大きな差があり、戦術的スタイルの違いが数字に表れている。
 
 ```{r}
-#| label: fig-timeseries
-#| fig-cap: "日別平均利用数の推移"
-#| code-summary: "時系列グラフの作成"
+#| label: fig-poss-team
+#| fig-cap: "チーム別平均ボール支配率"
+#| code-summary: "チーム別平均支配率の可視化"
 
-daily_avg <- aggregate(count ~ date, data = bike_data, FUN = mean)
+team_poss <- aggregate(Poss ~ team, data = analysis_data, FUN = mean)
+team_poss <- team_poss[order(team_poss$Poss, decreasing = TRUE), ]
 
-plot(daily_avg$date, daily_avg$count, type = "l", col = "#2F5496",
-     xlab = "日付", ylab = "平均利用数（台/時間）", lwd = 1.5)
+barplot(team_poss$Poss, names.arg = team_poss$team,
+        col = "#2F5496", las = 2,
+        ylab = "平均ボール支配率（%）",
+        ylim = c(0, 70),
+        cex.names = 0.7)
+abline(h = 50, lty = 2, col = "gray50")
 ```
 
 
-## 気象データとの関係
+## 勝敗別の支配率
 
-@fig-scatter-temp は気温と利用数の関係を示す散布図である。気温が高いほど利用数が増加する正の相関が認められる。
+@fig-poss-result は勝敗別にボール支配率の分布を示した箱ひげ図である。勝利試合・引き分け・敗北試合の間で支配率の分布に差があるかを確認する。
 
 ```{r}
-#| label: fig-scatter-temp
-#| fig-cap: "気温と利用数の関係"
-#| code-summary: "散布図の作成"
+#| label: fig-poss-result
+#| fig-cap: "勝敗別ボール支配率の分布"
+#| code-summary: "勝敗別箱ひげ図の作成"
 
-set.seed(42)
-idx <- sample(nrow(bike_data), 2000)
-sample_data <- bike_data[idx, ]
+poss_W <- analysis_data$Poss[analysis_data$Result == "W"]
+poss_D <- analysis_data$Poss[analysis_data$Result == "D"]
+poss_L <- analysis_data$Poss[analysis_data$Result == "L"]
 
-plot(sample_data$temperature, sample_data$count,
-     pch = 16, col = adjustcolor("#2F5496", 0.3), cex = 0.6,
-     xlab = "気温（°C）", ylab = "利用数（台）")
+boxplot(list(勝利 = poss_W, 引き分け = poss_D, 敗北 = poss_L),
+        col = c("#2F5496", "#A9C4E9", "#D9534F"),
+        ylab = "ボール支配率（%）",
+        xlab = "試合結果")
+abline(h = 50, lty = 2, col = "gray50")
 ```
 
 
-## 曜日・時間帯パターン
+## 支配率と勝率の関係
 
-::: {.panel-tabset}
-
-### 時間帯別
+@fig-poss-winrate はチーム単位の平均支配率と勝率の関係を示す散布図である。
 
 ```{r}
-#| label: fig-hourly-pattern
-#| fig-cap: "時間帯別の平均利用数"
-#| code-summary: "時間帯別集計"
+#| label: fig-poss-winrate
+#| message: false
+#| warning: false
+#| code-summary: 散布図の作成
+#| fig-cap: チーム別平均ボール支配率と勝率の関係
 
-hourly_avg <- aggregate(count ~ hour, data = bike_data, FUN = mean)
+library(plotly)
 
-barplot(hourly_avg$count, names.arg = hourly_avg$hour,
-        col = "#2F5496", xlab = "時間帯", ylab = "平均利用数（台）",
-        las = 1)
-```
+team_summary <- aggregate(cbind(win, Poss) ~ team, data = analysis_data, FUN = mean)
 
-### 曜日別
 
-```{r}
-#| label: fig-wday-pattern
-#| fig-cap: "曜日別の平均利用数"
-#| code-summary: "曜日別集計"
 
-wday_avg <- aggregate(count ~ wday, data = bike_data, FUN = mean)
+fit   <- lm(win ~ Poss, data = team_summary)
+x_seq <- seq(min(team_summary$Poss), max(team_summary$Poss), length.out = 100)
+trend <- data.frame(Poss = x_seq, win = predict(fit, newdata = data.frame(Poss = x_seq)))
 
-barplot(wday_avg$count, names.arg = wday_avg$wday,
-        col = "#4472C4", xlab = "曜日", ylab = "平均利用数（台）",
-        las = 1)
+plot_ly() |>
+  add_markers(
+    data = team_summary,
+    x = ~Poss, y = ~win,
+    text = ~team,
+    hovertemplate = "<b>%{text}</b><br>支配率: %{x:.1f}%<br>勝率: %{y:.3f}<extra></extra>",
+    marker = list(size = 10, color = "#2F5496", opacity = 0.7),
+    showlegend = FALSE
+  ) |>
+  add_lines(
+    data = trend,
+    x = ~Poss, y = ~win,
+    line = list(color = "#D9534F", dash = "dash", width = 1.5),
+    hoverinfo = "skip",
+    showlegend = FALSE
+  ) |>
+  layout(
+    xaxis = list(title = "平均ボール支配率（%）"),
+    yaxis = list(title = "勝率")
+  )
 ```
 
 :::
-
 
 ## 前処理パイプライン
 
@@ -175,9 +200,10 @@ barplot(wday_avg$count, names.arg = wday_avg$wday,
 %%| label: fig-preprocess
 %%| fig-cap: "データ前処理パイプライン"
 flowchart LR
-    A[元データ取得] --> B[欠損値処理]
-    B --> C[特徴量生成]
-    C --> D[時間帯・曜日<br>ダミー変数化]
-    D --> E[訓練/テスト分割]
-    E --> F[モデル入力]
+    A[CSVファイル<br>20チーム分] --> B[縦結合<br>team列付与]
+    B --> C[win列生成<br>W=1 / 其他=0]
+    C --> D[Points列生成<br>W=3 D=1 L=0]
+    D --> E[Attendance<br>数値変換]
+    E --> F[NA除外]
+    F --> G[analysis_data<br>760試合×23列]
 ```

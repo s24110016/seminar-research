@@ -223,32 +223,6 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-default callout-tip callout-titled" title="書き方ガイド：分析手法">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">ヒント</span>書き方ガイド：分析手法
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>何を書くか：</strong> 使用する分析手法の理論的背景と、なぜその手法を選んだかの根拠を述べる章です。</p>
-<p><strong>書き方のコツ：</strong></p>
-<ul>
-<li><strong>手法の選定理由</strong> を比較表で示すと説得力が増します</li>
-<li><strong>数学的な定義</strong> は LaTeX 数式で正確に記述します</li>
-<li>パイプライン全体を図解すると読者の理解が深まります</li>
-<li>評価指標は定義を明示し、なぜその指標を使うのかを説明します</li>
-</ul>
-<p><strong>Quartoの機能：</strong></p>
-<ul>
-<li>LaTeX 数式は <code>$$</code> で囲みます。<code>{#eq-label}</code> で式番号を付与し、<code>@eq-label</code> で参照します</li>
-<li>Mermaid 記法でパイプライン図やフロー図を描けます</li>
-<li><code>#| label: tbl-xxx</code> と <code>#| tbl-cap:</code> で表番号とキャプションを自動付与します</li>
-</ul>
-</div>
-</div>
 <section id="手法の選定" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="手法の選定"><span class="header-section-number">3.1</span> 手法の選定</h2>
 <p>本研究では、ボール支配率と勝敗・勝ち点の関係を明らかにするため、以下の2手法を用いる。まず相関分析により変数間の線形関係の強さを定量化し、次にロジスティック回帰により支配率が勝利確率に与える影響を推定する。</p>
@@ -525,23 +499,6 @@ p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}
 <p>ロジスティック回帰にはOLSの決定係数<span class="math inline">\(R^2\)</span>が直接適用できないため、モデル全体の当てはまりの指標としてMcFaddenの疑似決定係数を用いる。 <span id="eq-mcfadden"><span class="math display">\[
 R^2_{\text{McF}} = 1 - \frac{\log L(\hat{M})}{\log L(M_0)}
 \tag{3.6}\]</span></span> ここで <span class="math inline">\(\log L(\hat{M})\)</span> は推定モデルの対数尤度、<span class="math inline">\(\log L(M_0)\)</span> は切片のみのヌルモデルの対数尤度である。値が1に近いほどモデルの説明力が高いことを示す。</p>
-<div class="callout callout-style-default callout-important callout-titled" title="パッケージの追加手順">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">重要</span>パッケージの追加手順
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><strong>R コンソール</strong>で <code>install.packages("パッケージ名")</code> を実行（初回のみ）</li>
-<li><code>.qmd</code> ファイルのコードブロック内で <code>library(パッケージ名)</code> を記述</li>
-<li><code>quarto render</code> で正常にビルドできることを確認</li>
-</ol>
-</div>
-</div>
 <section id="代表的な追加パッケージ" class="level3">
 <h3 class="anchored" data-anchor-id="代表的な追加パッケージ">代表的な追加パッケージ</h3>
 <table class="caption-top table">
@@ -580,23 +537,6 @@ R^2_{\text{McF}} = 1 - \frac{\log L(\hat{M})}{\log L(M_0)}
 </tr>
 </tbody>
 </table>
-<div class="callout callout-style-default callout-warning callout-titled" title="注意">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">警告</span>注意
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>追加パッケージを使う場合、<code>quarto render</code> 時にそのパッケージがインストール済みである必要がある</li>
-<li>エラーが出たら、まず <code>install.packages("パッケージ名")</code> を実行してから再度 <code>quarto render</code> する</li>
-<li>GitHub Pages にデプロイする際、<strong>ビルドは自分の PC 上で行われる</strong>ため、自分の PC にパッケージがあれば問題ない</li>
-</ul>
-</div>
-</div>
 
 
 </section>
